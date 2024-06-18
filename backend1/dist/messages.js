@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LOBBY_ERROR = exports.JOIN_LOBBY = exports.LOBBY_CREATED = exports.CREATE_LOBBY = exports.TIME = exports.BLACK = exports.WHITE = exports.REMATCH = exports.GAME_OVER = exports.MOVE = exports.INIT_GAME = void 0;
+exports.INIT_GAME = "init_game";
+exports.MOVE = "move";
+exports.GAME_OVER = "game_over";
+exports.REMATCH = "rematch";
+exports.WHITE = "w";
+exports.BLACK = "b";
+exports.TIME = "time";
+exports.CREATE_LOBBY = "create_lobby";
+exports.LOBBY_CREATED = "lobby_created";
+exports.JOIN_LOBBY = "join_lobby";
+exports.LOBBY_ERROR = "lobby_error";

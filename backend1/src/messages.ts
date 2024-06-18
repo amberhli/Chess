@@ -1,0 +1,11 @@
+export const INIT_GAME = "init_game";
+export const MOVE = "move";
+export const GAME_OVER = "game_over";
+export const REMATCH = "rematch";
+export const WHITE = "w";
+export const BLACK = "b";
+export const TIME = "time";
+export const CREATE_LOBBY = "create_lobby";
+export const LOBBY_CREATED = "lobby_created";
+export const JOIN_LOBBY = "join_lobby";
+export const LOBBY_ERROR = "lobby_error";
