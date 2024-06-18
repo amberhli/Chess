@@ -4,7 +4,8 @@
   "private": true, 
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "cd backend1 && npx tsc -b && cd ../frontend && npm run build",
+    "start": "cd backend1 && node dist/index.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
