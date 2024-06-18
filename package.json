@@ -1,5 +1,9 @@
 {
   "name": "my-chess-app",
+  "version": "1.0.0",
+  "engines": {
+    "node": "20.13.1"
+  },
   "devDependencies": {
     "@types/node": "^20.14.2",
     "typescript": "^5.4.5"
