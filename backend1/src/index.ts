@@ -17,10 +17,12 @@ app.get('*', (req, res) => {
 });
 
 // Start the Express server
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 
-const privateKey = fs.readFileSync('key.pem', 'utf8');
-const certificate = fs.readFileSync('cert.pem', 'utf8');
+// Load SSL certificate files
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/amberschess.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/amberschess.com/fullchain.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const server = https.createServer(credentials, app);
@@ -38,6 +40,8 @@ wss.on('connection', function connection(ws) {
         console.log("WebSocket connection removed");
     });
 }); 
+
+const PORT = process.env.PORT || 443; // Default HTTPS port
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
