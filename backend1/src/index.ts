@@ -21,8 +21,8 @@ app.get('*', (req, res) => {
 
 // Load SSL certificate files
 
-const privateKey = fs.readFileSync('../../../etc/letsencrypt/live/amberschess.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('../../../etc/letsencrypt/live/amberschess.com/fullchain.pem', 'utf8');
+const privateKey = fs.readFileSync('../../etc/letsencrypt/live/amberschess.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('../../etc/letsencrypt/live/amberschess.com/fullchain.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const server = https.createServer(credentials, app);
