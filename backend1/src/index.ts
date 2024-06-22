@@ -1,3 +1,5 @@
+import https from 'https';
+import fs from 'fs';
 import express from 'express';
 import path from 'path';
 import { WebSocketServer } from 'ws';
@@ -16,9 +18,13 @@ app.get('*', (req, res) => {
 
 // Start the Express server
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+
+const privateKey = fs.readFileSync('key.pem', 'utf8');
+const certificate = fs.readFileSync('cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+const server = https.createServer(credentials, app);
+console.log("Server created.");
 
 const wss = new WebSocketServer({ server });
 
@@ -32,3 +38,7 @@ wss.on('connection', function connection(ws) {
         console.log("WebSocket connection removed");
     });
 }); 
+
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
