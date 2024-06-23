@@ -1,11 +1,26 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import { Button } from "../components/Button";
 
 export const Landing = () => {
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+            setScreenHeight(window.innerHeight);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const navigate = useNavigate();
     return <div className="h-full p-8">
         <div className="h-full justify-center flex flex-col md-lg:flex-row space-y-6 space-x-0 md-lg:space-y-0 md-lg:space-x-8 lg:space-x-10 xl:space-x-12 2xl:space-x-14">
-            <div style={{ width: "calc(100vh - 160px)" }} className="h-full md-lg:w-full md-lg:mx-0 mx-auto ">
+            <div style={ screenWidth > screenHeight ? {width: "calc(100vh - 160px)" } : {} } className="h-full md-lg:w-full md-lg:mx-0 mx-auto">
                 <div className="w-full mt-11">
                     <img src={"/chessboard.png"}/>
                 </div>

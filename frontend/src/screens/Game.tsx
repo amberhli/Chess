@@ -28,7 +28,8 @@ export const Game = () => {
     const [displayLobbyCode, setDisplayLobbyCode] = useState(false);
     const [joinPrivate, setJoinPrivate] = useState(false);
     const [createPrivate, setCreatePrivate] = useState(false);
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth); // State for screen width
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
     /* SOUND EFFECTS */
     const [playStart] = useSound('/notify.mp3', { volume: 0.25 });
@@ -95,6 +96,7 @@ export const Game = () => {
     useEffect(() => {
         const handleResize = () => {
             setScreenWidth(window.innerWidth);
+            setScreenHeight(window.innerHeight);
         };
         window.addEventListener('resize', handleResize);
         return () => {
@@ -155,7 +157,7 @@ export const Game = () => {
 
     return <div className="h-full p-8">
         <div className="h-full justify-center flex flex-col md-lg:flex-row space-y-6 space-x-0 md-lg:space-y-0 md-lg:space-x-8 lg:space-x-10 xl:space-x-12 2xl:space-x-14">
-            <div style={ screenWidth > 600 ? {width: "calc(100vh - 160px)" } : {} } className="h-full md-lg:w-full md-lg:mx-0 mx-auto">
+            <div style={ screenWidth > screenHeight ? {width: "calc(100vh - 160px)" } : {} } className="h-full md-lg:w-full md-lg:mx-0 mx-auto">
                 <div className="h-full flex flex-col space-y-4">
                     <div className="flex justify-end">
                         <ChessClock 
