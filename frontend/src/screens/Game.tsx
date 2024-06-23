@@ -28,6 +28,7 @@ export const Game = () => {
     const [displayLobbyCode, setDisplayLobbyCode] = useState(false);
     const [joinPrivate, setJoinPrivate] = useState(false);
     const [createPrivate, setCreatePrivate] = useState(false);
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth); // State for screen width
 
     /* SOUND EFFECTS */
     const [playStart] = useSound('/notify.mp3', { volume: 0.25 });
@@ -90,6 +91,17 @@ export const Game = () => {
         };
     }, [socket, chess]);
 
+    // Listen for window resize events and update screenWidth state
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const navigate = useNavigate();
     const handleReturnHome = () => {
         navigate("/");
@@ -138,9 +150,12 @@ export const Game = () => {
 
     // overall padding is 32px, height of 2xl font line is 32px, height of in btwn padding is 16px
     // (32*2)+(32*2)+(16*2) = 160px
+    // p-8 = 32px, 32*2 = 64px
+    // className={`h-full md:w-full md:mx-0 mx-auto ${screenWidth <= 600 ? 'w-full' : ''}`}>
+
     return <div className="h-full p-8">
         <div className="h-full justify-center flex flex-col md-lg:flex-row space-y-6 space-x-0 md-lg:space-y-0 md-lg:space-x-8 lg:space-x-10 xl:space-x-12 2xl:space-x-14">
-            <div style={{ width: "calc(100vh - 160px)" }} className="h-full md-lg:w-full md-lg:mx-0 mx-auto ">
+            <div style={ screenWidth > 600 ? {width: "calc(100vh - 160px)" } : {} } className="h-full md-lg:w-full md-lg:mx-0 mx-auto">
                 <div className="h-full flex flex-col space-y-4">
                     <div className="flex justify-end">
                         <ChessClock 
