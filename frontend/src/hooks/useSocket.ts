@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 
-const backendWSUrl = import.meta.env.VITE_BACKEND_WS_URL;
-console.log(backendWSUrl);
-
 export const useSocket = () => {
     const [socket, setSocket] = useState<WebSocket | null>(null);
 
