@@ -19,10 +19,24 @@ app.get('*', (req, res) => {
 // Start the Express server
 // const PORT = process.env.PORT || 8080;
 
-// Load SSL certificate files
+// Load SSL certificate files with error checking
+let privateKey;
+let certificate;
+try {
+    privateKey = fs.readFileSync('/etc/letsencrypt/live/amberschess.com/privkey.pem', 'utf8');
+} catch (err) {
+    console.error('Error reading private key:', err);
+}
+try {
+    certificate = fs.readFileSync('/etc/letsencrypt/live/amberschess.com/fullchain.pem', 'utf8');
+} catch (err) {
+    console.error('Error reading certificate:', err);
+}
+if (!privateKey || !certificate) {
+    console.error('Failed to load SSL certificate or key');
+    process.exit(1);
+}
 
-const privateKey = fs.readFileSync('../../etc/letsencrypt/live/amberschess.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('../../etc/letsencrypt/live/amberschess.com/fullchain.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const server = https.createServer(credentials, app);
