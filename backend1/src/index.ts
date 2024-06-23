@@ -56,3 +56,7 @@ wss.on('connection', function connection(ws) {
 }); 
 
 const PORT = process.env.PORT || 443; // Default HTTPS port
+
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
