@@ -3,8 +3,6 @@ import { CREATE_LOBBY } from '../../../backend1/src/messages.ts';
 import TimeControlButton from "./TimeControlButton.tsx";
 import { Button } from "./Button.tsx";
 
-// TODO: increase size of time control dropdown
-
 interface TimeControlProps {
     socket: WebSocket | null;
     setClockTimeW: (time: number) => void;
@@ -32,20 +30,24 @@ const TimeControl: React.FC<TimeControlProps> = ({ socket, setClockTimeW, setClo
         setCustomTimeB(event.target.value);
     };
 
+    const handleSetTimeControl = () => {
+        const timeW = parseInt(customTimeW, 10);
+        const timeB = parseInt(customTimeB, 10);    
+        if (!isNaN(timeW) && !isNaN(timeB) && timeW > 0 && timeB > 0 && timeW < 24 && timeB < 24) {
+            setClockTimeW(timeW * 60);
+            setClockTimeB(timeB * 60);
+            setSelectedTimeW(timeW * 60);
+            setSelectedTimeB(timeB * 60);
+        } else if (isNaN(timeW) || isNaN(timeB)) {
+            alert('Please enter valid numbers for the custom time control.');
+        } else {
+            alert('Please enter times between 0-24 hours.');
+        }
+    };
+
     const handleCustomTimeKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            const timeW = parseInt(customTimeW, 10);
-            const timeB = parseInt(customTimeB, 10);    
-            if (!isNaN(timeW) && !isNaN(timeB) && timeW > 0 && timeB > 0 && timeW < 24 && timeB < 24) {
-                setClockTimeW(timeW * 60);
-                setClockTimeB(timeB * 60);
-                setSelectedTimeW(timeW * 60);
-                setSelectedTimeB(timeB * 60);
-            } else if (isNaN(timeW) || isNaN(timeB)) {
-                alert('Please enter valid numbers for the custom time control.');
-            } else {
-                alert('Please enter times between 0-24 hours.');
-            }
+            handleSetTimeControl();
         }
     };
 
@@ -68,13 +70,13 @@ const TimeControl: React.FC<TimeControlProps> = ({ socket, setClockTimeW, setClo
                 id="multilevelDropdownButton"
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white bg-dark-gray hover:bg-darkest-gray font-medium rounded-lg text-sm px-5 py-4 text-center inline-flex items-center w-full"
+                className="text-white bg-dark-gray hover:bg-darkest-gray font-medium rounded-lg text-sm px-5 py-4 text-center inline-flex items-center justify-between w-full"
                 aria-haspopup="true" 
                 aria-expanded={isOpen ? "true" : "false"} 
             >
-                Time Control
+                <span>Time Control</span>
                 <svg
-                    className="w-2.5 h-2.5 ms-3"
+                    className={`w-2.5 h-2.5 ms-3 ${isOpen ? 'rotate-180' : ''}`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -97,7 +99,7 @@ const TimeControl: React.FC<TimeControlProps> = ({ socket, setClockTimeW, setClo
                 style={{ top: "100%", left: 0 }}
                 aria-labelledby="multiLevelDropdownButton"
             >
-                <div className="grid grid-cols-3 gap-2 mb-4">
+                <div className="grid grid-cols-3 gap-2 mb-6">
                     <TimeControlButton 
                         time={60} 
                         handleTimeSelect={handleTimeSelect} 
@@ -129,12 +131,12 @@ const TimeControl: React.FC<TimeControlProps> = ({ socket, setClockTimeW, setClo
                         label="60 min" 
                     />
                 </div>
-                <div className="w-full mb-4">
+                <div className="w-full mb-6">
                     <div className="flex">
                         <label className="mt-1 justify-start text-white text-sm mr-2">
                             Custom:
                         </label>
-                        <div className="flex flex-row md-lg:flex-col">
+                        <div className="flex flex-row w-full md-lg:flex-col">
                             <input
                                 type="text"
                                 value={customTimeW}
@@ -148,9 +150,15 @@ const TimeControl: React.FC<TimeControlProps> = ({ socket, setClockTimeW, setClo
                                 value={customTimeB}
                                 onChange={handleCustomTimeChangeB}
                                 onKeyPress={handleCustomTimeKeyPress}
-                                className="w-full bg-white pl-3 py-1 rounded-md text-sm focus:outline-none focus:ring-4 focus:ring-dark-pink"
+                                className="w-full bg-white pl-3 py-1 rounded-md text-sm focus:outline-none focus:ring-4 focus:ring-dark-pink md-lg:mb-2 mr-2"
                                 placeholder="Enter time for Black"
                             />
+                            <button 
+                                    onClick={handleSetTimeControl}
+                                    className="w-full bg-dark-gray py-1 pl-3 rounded-lg text-sm text-white text-left rounded-md hover:bg-darkest-gray focus:outline-none"
+                                >
+                                    Set Time Control
+                                </button>
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { Game } from './screens/Game'
 
 function App() {
   return (
-    <div className='h-fit md-lg:h-screen bg-dark-gray'>
+    <div className='sm-sm:h-fit h-full md-lg:h-screen bg-dark-gray'>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
